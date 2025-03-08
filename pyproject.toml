@@ -1,0 +1,21 @@
+[project]
+name = "doc-compiler"
+version = "0.1.0"
+description = "A tool to crawl documentation pages and consolidate them using LLMs"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "beautifulsoup4>=4.13.3",
+    "dotenv>=0.9.9",
+    "openai>=1.65.4",
+    "requests>=2.32.3",
+    "selenium>=4.29.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["doc_compiler"]

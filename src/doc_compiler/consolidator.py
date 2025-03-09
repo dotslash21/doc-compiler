@@ -1,19 +1,15 @@
 import logging
 from typing import Dict, List
 
-import openai
-
 from config import OPENAI_API_BASE_URL
+from openai import OpenAI
 
 
 class ContentConsolidator:
     def __init__(self, api_key: str, model: str = "gpt-3.5-turbo"):
         """Initialize the consolidator with OpenAI API key and model."""
-        self.api_key = api_key
+        self.client = OpenAI(base_url=OPENAI_API_BASE_URL, api_key=api_key)
         self.model = model
-        openai.api_key = api_key
-        if OPENAI_API_BASE_URL:
-            openai.api_base = OPENAI_API_BASE_URL
         self.logger = logging.getLogger(__name__)
 
     def _build_prompt(self, pages: List[Dict[str, str]]) -> str:
@@ -67,7 +63,7 @@ class ContentConsolidator:
                     prompt = self._build_prompt(pages)
                     estimated_tokens = len(prompt) // 4
 
-            response = openai.ChatCompletion.create(
+            response = self.client.chat.completions.create(
                 model=self.model,
                 messages=[
                     {

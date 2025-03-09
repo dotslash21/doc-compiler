@@ -1,22 +1,12 @@
 import argparse
 import logging
 import sys
+from datetime import datetime
 
 from config import OPENAI_API_KEY, OPENAI_API_MODEL
 from consolidator import ContentConsolidator
 from crawler import WebCrawler
-
-
-def setup_logging() -> None:
-    """Configure logging to output to both file and console."""
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        handlers=[
-            logging.FileHandler("doc_compiler.log"),
-            logging.StreamHandler(sys.stdout),
-        ],
-    )
+from logger import setup_logging
 
 
 def parse_arguments() -> argparse.Namespace:
@@ -31,7 +21,7 @@ def parse_arguments() -> argparse.Namespace:
     )
     parser.add_argument(
         "--output",
-        default="output.md",
+        default=f"./output/{datetime.now().strftime('%Y%m%d_%H%M%S')}.md",
         help="Output markdown file path (default: output.md)",
     )
     return parser.parse_args()
